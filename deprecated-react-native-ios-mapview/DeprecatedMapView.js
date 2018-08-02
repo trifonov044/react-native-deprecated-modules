@@ -32,7 +32,7 @@
 import React from 'react';
 
 // Hack to get RN internals
-import NativeMethodsMixin from 'react/lib/NativeMethodsMixin';
+import NativeMethodsMixin from 'react';
 import deprecatedPropType from 'react-native/Libraries/Utilities/deprecatedPropType';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 
@@ -44,7 +44,10 @@ import {
   View,
   processColor,
   requireNativeComponent,
+  ViewPropTypes
 } from 'react-native';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 
 type Event = Object;
 
@@ -102,16 +105,16 @@ export type AnnotationDragState = $Enum<{
  *
  */
 
-const DeprecatedMapView = React.createClass({
+const DeprecatedMapView = createReactClass({
 
   mixins: [NativeMethodsMixin],
 
   propTypes: {
-    ...View.propTypes,
+    ...ViewPropTypes,
     /**
      * Used to style and layout the `DeprecatedMapView`.
      */
-    style: View.propTypes.style,
+    style: PropTypes.style,
 
     /**
      * If `true` the app will ask for the user's location and display it on
@@ -120,32 +123,32 @@ const DeprecatedMapView = React.createClass({
      * **NOTE**: You'll need to add the `NSLocationWhenInUseUsageDescription`
      * key in Info.plist to enable geolocation, otherwise it will fail silently.
      */
-    showsUserLocation: React.PropTypes.bool,
+    showsUserLocation: PropTypes.bool,
 
     /**
      * If `true` the map will follow the user's location whenever it changes.
      * Note that this has no effect unless `showsUserLocation` is enabled.
      * Default value is `true`.
      */
-    followUserLocation: React.PropTypes.bool,
+    followUserLocation: PropTypes.bool,
 
     /**
      * If `false` points of interest won't be displayed on the map.
      * Default value is `true`.
      */
-    showsPointsOfInterest: React.PropTypes.bool,
+    showsPointsOfInterest: PropTypes.bool,
 
     /**
      * If `false`, compass won't be displayed on the map.
      * Default value is `true`.
      */
-    showsCompass: React.PropTypes.bool,
+    showsCompass: PropTypes.bool,
 
     /**
      * If `false` the user won't be able to pinch/zoom the map.
      * Default value is `true`.
      */
-    zoomEnabled: React.PropTypes.bool,
+    zoomEnabled: PropTypes.bool,
 
     /**
      * When this property is set to `true` and a valid camera is associated with
@@ -156,7 +159,7 @@ const DeprecatedMapView = React.createClass({
      * camera's heading angle is ignored and the map is always oriented so
      * that true north is situated at the top of the map view
      */
-    rotateEnabled: React.PropTypes.bool,
+    rotateEnabled: PropTypes.bool,
 
     /**
      * When this property is set to `true` and a valid camera is associated
@@ -167,13 +170,13 @@ const DeprecatedMapView = React.createClass({
      * angle is ignored and the map is always displayed as if the user
      * is looking straight down onto it.
      */
-    pitchEnabled: React.PropTypes.bool,
+    pitchEnabled: PropTypes.bool,
 
     /**
      * If `false` the user won't be able to change the map region being displayed.
      * Default value is `true`.
      */
-    scrollEnabled: React.PropTypes.bool,
+    scrollEnabled: PropTypes.bool,
 
     /**
      * The map type to be displayed.
@@ -182,7 +185,7 @@ const DeprecatedMapView = React.createClass({
      * - `satellite`: Satellite view.
      * - `hybrid`: Satellite view with roads and points of interest overlaid.
      */
-    mapType: React.PropTypes.oneOf([
+    mapType: PropTypes.oneOf([
       'standard',
       'satellite',
       'hybrid',
@@ -194,70 +197,70 @@ const DeprecatedMapView = React.createClass({
      * The region is defined by the center coordinates and the span of
      * coordinates to display.
      */
-    region: React.PropTypes.shape({
+    region: PropTypes.shape({
       /**
        * Coordinates for the center of the map.
        */
-      latitude: React.PropTypes.number.isRequired,
-      longitude: React.PropTypes.number.isRequired,
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
 
       /**
        * Distance between the minimum and the maximum latitude/longitude
        * to be displayed.
        */
-      latitudeDelta: React.PropTypes.number,
-      longitudeDelta: React.PropTypes.number,
+      latitudeDelta: PropTypes.number,
+      longitudeDelta: PropTypes.number,
     }),
 
     /**
      * Map annotations with title and subtitle.
      */
-    annotations: React.PropTypes.arrayOf(React.PropTypes.shape({
+    annotations: PropTypes.arrayOf(PropTypes.shape({
       /**
        * The location of the annotation.
        */
-      latitude: React.PropTypes.number.isRequired,
-      longitude: React.PropTypes.number.isRequired,
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
 
       /**
        * Whether the pin drop should be animated or not
        */
-      animateDrop: React.PropTypes.bool,
+      animateDrop: PropTypes.bool,
 
       /**
        * Whether the pin should be draggable or not
        */
-      draggable: React.PropTypes.bool,
+      draggable: PropTypes.bool,
 
       /**
        * Event that fires when the annotation drag state changes.
        */
-      onDragStateChange: React.PropTypes.func,
+      onDragStateChange: PropTypes.func,
 
       /**
        * Event that fires when the annotation gets was tapped by the user
        * and the callout view was displayed.
        */
-      onFocus: React.PropTypes.func,
+      onFocus: PropTypes.func,
 
       /**
        * Event that fires when another annotation or the mapview itself
        * was tapped and a previously shown annotation will be closed.
        */
-      onBlur: React.PropTypes.func,
+      onBlur: PropTypes.func,
 
       /**
        * Annotation title and subtile.
        */
-      title: React.PropTypes.string,
-      subtitle: React.PropTypes.string,
+      title: PropTypes.string,
+      subtitle: PropTypes.string,
 
       /**
        * Callout views.
        */
-      leftCalloutView: React.PropTypes.element,
-      rightCalloutView: React.PropTypes.element,
-      detailCalloutView: React.PropTypes.element,
+      leftCalloutView: PropTypes.element,
+      rightCalloutView: PropTypes.element,
+      detailCalloutView: PropTypes.element,
 
       /**
        * The pin color. This can be any valid color string, or you can use one
@@ -273,35 +276,35 @@ const DeprecatedMapView = React.createClass({
       /**
        * Custom pin image. This must be a static image resource inside the app.
        */
-      image: Image.propTypes.source,
+      image: PropTypes.source,
 
       /**
        * Custom pin view. If set, this replaces the pin or custom pin image.
        */
-      view: React.PropTypes.element,
+      view: PropTypes.element,
 
       /**
        * annotation id
        */
-      id: React.PropTypes.string,
+      id: PropTypes.string,
 
       /**
        * Deprecated. Use the left/right/detailsCalloutView props instead.
        */
       hasLeftCallout: deprecatedPropType(
-        React.PropTypes.bool,
+        PropTypes.bool,
         'Use `leftCalloutView` instead.'
       ),
       hasRightCallout: deprecatedPropType(
-        React.PropTypes.bool,
+        PropTypes.bool,
         'Use `rightCalloutView` instead.'
       ),
       onLeftCalloutPress: deprecatedPropType(
-        React.PropTypes.func,
+        PropTypes.func,
         'Use `leftCalloutView` instead.'
       ),
       onRightCalloutPress: deprecatedPropType(
-        React.PropTypes.func,
+        PropTypes.func,
         'Use `rightCalloutView` instead.'
       ),
     })),
@@ -309,37 +312,37 @@ const DeprecatedMapView = React.createClass({
     /**
      * Map overlays
      */
-    overlays: React.PropTypes.arrayOf(React.PropTypes.shape({
+    overlays: PropTypes.arrayOf(PropTypes.shape({
       /**
        * Polyline coordinates
        */
-      coordinates: React.PropTypes.arrayOf(React.PropTypes.shape({
-        latitude: React.PropTypes.number.isRequired,
-        longitude: React.PropTypes.number.isRequired
+      coordinates: PropTypes.arrayOf(PropTypes.shape({
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired
       })),
 
       /**
        * Line attributes
        */
-      lineWidth: React.PropTypes.number,
+      lineWidth: PropTypes.number,
       strokeColor: ColorPropType,
       fillColor: ColorPropType,
 
       /**
        * Overlay id
        */
-      id: React.PropTypes.string
+      id: PropTypes.string
     })),
 
     /**
      * Maximum size of the area that can be displayed.
      */
-    maxDelta: React.PropTypes.number,
+    maxDelta: PropTypes.number,
 
     /**
      * Minimum size of the area that can be displayed.
      */
-    minDelta: React.PropTypes.number,
+    minDelta: PropTypes.number,
 
     /**
      * Insets for the map's legal label, originally at bottom left of the map.
@@ -349,22 +352,22 @@ const DeprecatedMapView = React.createClass({
     /**
      * Callback that is called continuously when the user is dragging the map.
      */
-    onRegionChange: React.PropTypes.func,
+    onRegionChange: PropTypes.func,
 
     /**
      * Callback that is called once, when the user is done moving the map.
      */
-    onRegionChangeComplete: React.PropTypes.func,
+    onRegionChangeComplete: PropTypes.func,
 
     /**
      * Deprecated. Use annotation `onFocus` and `onBlur` instead.
      */
-    onAnnotationPress: React.PropTypes.func,
+    onAnnotationPress: PropTypes.func,
 
     /**
      * @platform android
      */
-    active: React.PropTypes.bool,
+    active: PropTypes.bool,
   },
 
   statics: {
