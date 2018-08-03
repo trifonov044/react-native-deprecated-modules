@@ -9,13 +9,13 @@
 
 #import "RCTMapManager.h"
 
-#import "RCTBridge.h"
-#import "RCTConvert+CoreLocation.h"
+#import <React/RCTBridge.h>
+#import <React/RCTConvert+CoreLocation.h>
 #import "RCTConvert+MapKit.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTEventDispatcher.h>
 #import "RCTMap.h"
-#import "RCTUtils.h"
-#import "UIView+React.h"
+#import <React/RCTUtils.h>
+#import <React/UIView+React.h>
 #import "RCTMapAnnotation.h"
 #import "RCTMapOverlay.h"
 
